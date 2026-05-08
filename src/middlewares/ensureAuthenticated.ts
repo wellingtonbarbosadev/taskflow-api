@@ -27,7 +27,6 @@ function ensureAuthenticated(
       token ?? "",
       JWT_SECRET,
     ) as JwtPayload;
-    console.log(role);
     request.user = {
       id: user_id,
       role,

@@ -8,5 +8,6 @@ const teamsController = new TeamsController();
 
 teamsRoutes.use(ensureAuthenticated, verifyUserAuthorization(["admin"]));
 teamsRoutes.get("/", teamsController.listAll);
+teamsRoutes.post("/", teamsController.createTeam);
 
 export { teamsRoutes };
