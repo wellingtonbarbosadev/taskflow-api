@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { prisma } from "../database/prisma.js";
 import z from "zod";
 import { AppError } from "../utils/AppError.js";
+import { hash } from "bcrypt-ts";
 
 class UserController {
   async listAllUsers(request: Request, response: Response) {
@@ -28,15 +29,19 @@ class UserController {
       throw new AppError("this email already exists");
     }
 
+    const hashedPassword = await hash(password, 10);
+
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
       },
     });
 
-    return response.status(201).json(user);
+    const { password: _, ...userWithoutPassword } = user;
+
+    return response.status(201).json(userWithoutPassword);
   }
 }
 
