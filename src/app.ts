@@ -1,7 +1,9 @@
 import express from "express";
-import { env } from "./env.js";
+import { routes } from "./routes/index.js";
 
 const app = express();
 app.use(express.json());
+
+app.use(routes);
 
 export { app };
