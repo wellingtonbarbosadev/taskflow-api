@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  admin
+  member
+}
+
+enum Status {
+  pending
+  in_progress
+  completed
+}
+
+enum Priority {
+  high
+  medium
+  low
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+  email String @db.VarChar(150)
+  password String @db.VarChar(255)
+  role Role @default(member)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  teamMembers TeamMembers[]
+  tasks Tasks[]
+  tasksHistory TasksHistory[]
+
+  @@map("users")
+}
+
+model Teams {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(100)
+  description String @db.VarChar(500)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  teamMembers TeamMembers[]
+  tasks Tasks[]
+
+  @@map("teams")
+}
+
+model TeamMembers {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  teamId Int @map("team_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+  team Teams @relation(fields: [teamId], references: [id])
+  
+  @@map("team_members")
+}
+
+model Tasks {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(200)
+  description String @db.VarChar(500)
+  status Status @default(pending)
+  priority Priority
+  assignedTo Int @map("assigned_to")
+  teamId Int @map("team_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  user User @relation(fields: [assignedTo], references: [id])
+  team Teams @relation(fields: [teamId], references: [id])
+  tasksHistory TasksHistory[]
+
+  @@map("tasks")
+}
+
+model TasksHistory {
+  id Int @id @default(autoincrement())
+  taskId Int @map("task_id")
+  changedBy Int @map("changed_by")
+  oldStatus Status @map("old_status")
+  newStatus Status @map("new_status")
+  changedAt DateTime? @updatedAt
+
+  tasks Tasks @relation(fields: [taskId], references: [id])
+  user User @relation(fields: [changedBy], references: [id])
+
+  @@map("tasks_history")
+}
