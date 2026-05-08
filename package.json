@@ -1,0 +1,11 @@
+{
+  "name": "taskflow-api",
+  "version": "1.0.0",
+  "description": "api for developers team",
+  "license": "ISC",
+  "author": "Wellington Barbosa",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
