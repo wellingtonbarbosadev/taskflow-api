@@ -5,7 +5,7 @@ import { env } from "../env";
 
 interface JwtPayload {
   sub: string;
-  role: string;
+  role: UserRoles;
 }
 
 function ensureAuthenticated(

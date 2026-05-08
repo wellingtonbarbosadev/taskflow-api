@@ -1,7 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/AppError";
 
-function verifyUserAuthorization(roles: string[]) {
+type UserRoles = "admin" | "member";
+
+function verifyUserAuthorization(roles: UserRoles[]) {
   return (request: Request, response: Response, next: NextFunction) => {
     if (!request.user) {
       throw new AppError("Unauthorized", 401);
