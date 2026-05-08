@@ -6,7 +6,7 @@ import { verifyUserAuthorization } from "../middlewares/verifyUserAuthorization"
 const teamsRoutes = Router();
 const teamsController = new TeamsController();
 
-teamsRoutes.use(ensureAuthenticated, verifyUserAuthorization(["member"]));
+teamsRoutes.use(ensureAuthenticated, verifyUserAuthorization(["admin"]));
 teamsRoutes.get("/", teamsController.listAll);
 
 export { teamsRoutes };

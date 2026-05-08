@@ -8,7 +8,8 @@ function verifyUserAuthorization(roles: UserRoles[]) {
     if (!request.user) {
       throw new AppError("Unauthorized", 401);
     }
-
+    console.log(roles.includes(request.user.role));
+    console.log(request.user.role);
     if (!roles.includes(request.user.role)) {
       throw new AppError("Unauthorized", 401);
     }

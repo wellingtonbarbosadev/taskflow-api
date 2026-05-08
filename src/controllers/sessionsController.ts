@@ -31,7 +31,7 @@ class SessionsController {
       throw new AppError("email or password incorrect");
     }
 
-    const token = generateToken(user.id);
+    const token = generateToken(user.id, user.role);
 
     return response.json({ token });
   }
