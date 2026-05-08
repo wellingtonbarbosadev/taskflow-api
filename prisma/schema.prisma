@@ -32,7 +32,7 @@ enum Priority {
 model User {
   id Int @id @default(autoincrement())
   name String @db.VarChar(100)
-  email String @db.VarChar(150)
+  email String @db.VarChar(150) @unique
   password String @db.VarChar(255)
   role Role @default(member)
   createdAt DateTime @default(now()) @map("created_at")
