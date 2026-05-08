@@ -33,7 +33,7 @@ class SessionsController {
 
     const token = generateToken(user.id);
 
-    return response.json(token);
+    return response.json({ token });
   }
 }
 

@@ -38,3 +38,5 @@ function ensureAuthenticated(
     throw new AppError("Invalid JWT Token", 401);
   }
 }
+
+export { ensureAuthenticated };
