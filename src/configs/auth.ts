@@ -3,7 +3,7 @@ import { env } from "../env";
 
 const JWT_SECRET = env.JWT_SECRET;
 
-export function generateToken(userId: string) {
+export function generateToken(userId: number) {
   return jwt.sign(
     {
       sub: userId,
