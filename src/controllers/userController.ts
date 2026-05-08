@@ -1,10 +1,12 @@
 import type { Request, Response } from "express";
 import { prisma } from "../database/prisma.js";
 import z from "zod";
+import { AppError } from "../utils/AppError.js";
 
 class UserController {
-  login(request: Request, response: Response) {
-    return response.json("OK");
+  async listAllUsers(request: Request, response: Response) {
+    const users = await prisma.user.findMany();
+    return response.json(users);
   }
 
   async register(request: Request, response: Response) {
@@ -16,7 +18,25 @@ class UserController {
 
     const { name, email, password } = bodySchema.parse(request.body);
 
-    return response.json({ name, email, password });
+    const emailAlreadyExists = await prisma.user.findFirst({
+      where: {
+        email,
+      },
+    });
+
+    if (emailAlreadyExists) {
+      throw new AppError("this email already exists");
+    }
+
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password,
+      },
+    });
+
+    return response.status(201).json(user);
   }
 }
 
