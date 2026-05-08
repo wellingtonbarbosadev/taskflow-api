@@ -4,8 +4,18 @@
   "description": "api for developers team",
   "license": "ISC",
   "author": "Wellington Barbosa",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
+    "dev": "tsx watch src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
   }
 }
