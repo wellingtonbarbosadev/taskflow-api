@@ -7,7 +7,10 @@ const teamsRoutes = Router();
 const teamsController = new TeamsController();
 
 teamsRoutes.use(ensureAuthenticated, verifyUserAuthorization(["admin"]));
+
 teamsRoutes.get("/", teamsController.listAll);
 teamsRoutes.post("/", teamsController.createTeam);
+teamsRoutes.delete("/:teamId", teamsController.deleteTeam);
+teamsRoutes.patch("/:teamId", teamsController.updateTeam);
 
 export { teamsRoutes };
