@@ -13,4 +13,6 @@ teamsRoutes.post("/", teamsController.createTeam);
 teamsRoutes.delete("/:teamId", teamsController.deleteTeam);
 teamsRoutes.patch("/:teamId", teamsController.updateTeam);
 
+teamsRoutes.post("/:teamId/add-member/userId");
+
 export { teamsRoutes };
