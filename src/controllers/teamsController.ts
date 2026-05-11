@@ -114,52 +114,6 @@ class TeamsController {
 
     return response.json(teamUpdated);
   }
-
-  async addMemberOnTeam(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-  ) {
-    const teamId = Number(request.params.teamId);
-    const userId = Number(request.params.userId);
-
-    if (!teamId) {
-      throw new AppError("teamId not sent");
-    }
-
-    if (!userId) {
-      throw new AppError("userId not sent");
-    }
-
-    const team = await prisma.teams.findFirst({
-      where: {
-        id: teamId,
-      },
-    });
-
-    const user = await prisma.user.findFirst({
-      where: {
-        id: userId,
-      },
-    });
-
-    if (!team) {
-      throw new AppError("team not exists", 404);
-    }
-
-    if (!user) {
-      throw new AppError("user not exists", 404);
-    }
-
-    const teamUpdated = await prisma.teamMembers.create({
-      data: {
-        teamId,
-        userId,
-      },
-    });
-
-    return response.json(teamUpdated);
-  }
 }
 
 export { TeamsController };
