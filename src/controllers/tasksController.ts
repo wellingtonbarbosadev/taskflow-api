@@ -17,7 +17,18 @@ enum Priority {
 
 class TasksController {
   async listTasks(request: Request, response: Response, next: NextFunction) {
+    const querySchema = z.object({
+      status: z.enum(Status).optional(),
+      priority: z.enum(Priority).optional(),
+    });
+
+    const { status, priority } = querySchema.parse(request.query);
+
     const tasks = await prisma.tasks.findMany({
+      where: {
+        status,
+        priority,
+      },
       select: {
         id: true,
         title: true,
