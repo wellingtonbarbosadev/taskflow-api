@@ -160,6 +160,17 @@ class TasksController {
       },
     });
 
+    if (task.status !== updatedTask.status) {
+      await prisma.tasksHistory.create({
+        data: {
+          taskId: task.id,
+          oldStatus: task.status,
+          newStatus: updatedTask.status,
+          changedBy: Number(request.user?.id),
+        },
+      });
+    }
+
     return response.json(updatedTask);
   }
 

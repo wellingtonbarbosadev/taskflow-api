@@ -9,7 +9,12 @@ const tasksController = new TasksController();
 tasksRoutes.use(ensureAuthenticated);
 
 tasksRoutes.get("/", tasksController.listTasks);
-tasksRoutes.post("/", tasksController.createTask);
+tasksRoutes.post(
+  "/",
+  ensureAuthenticated,
+  verifyUserAuthorization(["admin"]),
+  tasksController.createTask,
+);
 tasksRoutes.patch("/:taskId", tasksController.editTask);
 tasksRoutes.delete("/:taskId", tasksController.deleteTask);
 
