@@ -262,6 +262,54 @@ class TasksController {
 
     return response.status(204).json();
   }
+
+  async historyTask(request: Request, response: Response, next: NextFunction) {
+    const taskId = Number(request.params.taskId);
+
+    const task = await prisma.tasks.findFirst({
+      where: {
+        id: taskId,
+      },
+    });
+
+    if (!task) {
+      throw new AppError("this task not exists");
+    }
+
+    if (
+      request.user?.role === "member" &&
+      Number(request.user?.id) !== task.assignedTo
+    ) {
+      throw new AppError("Unauthorized");
+    }
+
+    const taskHistory = await prisma.tasksHistory.findMany({
+      where: {
+        taskId,
+      },
+      select: {
+        id: true,
+        tasks: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        changedByUser: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        oldStatus: true,
+        newStatus: true,
+        changedAt: true,
+      },
+    });
+
+    return response.json(taskHistory);
+  }
 }
 
 export { TasksController };

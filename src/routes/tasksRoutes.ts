@@ -9,6 +9,8 @@ const tasksController = new TasksController();
 tasksRoutes.use(ensureAuthenticated);
 
 tasksRoutes.get("/", tasksController.listTasks);
+tasksRoutes.get("/:taskId/history", tasksController.historyTask);
+
 tasksRoutes.post(
   "/",
   ensureAuthenticated,

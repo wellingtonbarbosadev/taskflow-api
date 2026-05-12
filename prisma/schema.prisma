@@ -97,7 +97,7 @@ model TasksHistory {
   changedAt DateTime? @updatedAt
 
   tasks Tasks @relation(fields: [taskId], references: [id])
-  user  User  @relation(fields: [changedBy], references: [id])
+  changedByUser  User  @relation(fields: [changedBy], references: [id])
 
   @@map("tasks_history")
 }
