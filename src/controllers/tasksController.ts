@@ -28,6 +28,10 @@ class TasksController {
       where: {
         status,
         priority,
+        assignedTo:
+          request.user?.role === "member"
+            ? Number(request.user?.id)
+            : undefined,
       },
       select: {
         id: true,
@@ -93,18 +97,45 @@ class TasksController {
       }
     }
 
-    const updatedTask = await prisma.tasks.update({
+    const task = await prisma.tasks.findUnique({
       where: {
         id: taskId,
       },
-      data: {
+    });
+
+    if (!task) {
+      throw new AppError("Task not found", 404);
+    }
+
+    if (
+      request.user?.role === "member" &&
+      task.assignedTo !== Number(request.user.id)
+    ) {
+      throw new AppError("Unauthorized", 401);
+    }
+
+    let data = {};
+
+    if (request.user?.role === "admin") {
+      data = {
         title,
         description,
         status,
         priority,
         assignedTo,
         teamId,
+      };
+    } else {
+      data = {
+        status,
+      };
+    }
+
+    const updatedTask = await prisma.tasks.update({
+      where: {
+        id: taskId,
       },
+      data,
       select: {
         id: true,
         title: true,

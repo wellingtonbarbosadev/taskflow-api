@@ -6,7 +6,7 @@ import { TasksController } from "../controllers/tasksController";
 const tasksRoutes = Router();
 const tasksController = new TasksController();
 
-tasksRoutes.use(ensureAuthenticated, verifyUserAuthorization(["admin"]));
+tasksRoutes.use(ensureAuthenticated);
 
 tasksRoutes.get("/", tasksController.listTasks);
 tasksRoutes.post("/", tasksController.createTask);
