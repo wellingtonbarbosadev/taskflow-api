@@ -16,6 +16,11 @@ tasksRoutes.post(
   tasksController.createTask,
 );
 tasksRoutes.patch("/:taskId", tasksController.editTask);
-tasksRoutes.delete("/:taskId", tasksController.deleteTask);
+tasksRoutes.delete(
+  "/:taskId",
+  ensureAuthenticated,
+  verifyUserAuthorization(["admin"]),
+  tasksController.deleteTask,
+);
 
 export { tasksRoutes };
