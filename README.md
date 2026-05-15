@@ -24,8 +24,8 @@ API REST para gerenciamento de times e tarefas, com autenticação JWT e control
 
 ## Pré-requisitos
 
-- Node.js
-- npm
+- Node.js >= 20
+- npm >= 10
 - Docker e Docker Compose (opcional, recomendado para banco local)
 
 ## Configuração do ambiente
@@ -36,7 +36,7 @@ API REST para gerenciamento de times e tarefas, com autenticação JWT e control
 npm ci
 ```
 
-2. Crie o arquivo `.env` com base no `.envexample`:
+2. Crie o arquivo `.env` com base no `.envexample` (nome usado neste projeto):
 
 ```bash
 cp .envexample .env
